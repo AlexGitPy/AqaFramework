@@ -1,6 +1,6 @@
 # AqaFramework — стартовый фреймворк автотестов на C#
 
-Стек: .NET 8, NUnit 4, Playwright, HttpClient, FluentAssertions.
+Стек: .NET 8, NUnit 4, Playwright, HttpClient, FluentAssertions, Allure.
 UI-тесты идут против https://www.saucedemo.com, API — против https://jsonplaceholder.typicode.com.
 
 ## Запуск
@@ -28,6 +28,19 @@ dotnet test --filter "FullyQualifiedName~LoginTests"
 dotnet test -- Playwright.LaunchOptions.Headless=true Playwright.LaunchOptions.SlowMo=0
 ```
 
+## Allure-отчёт
+
+Один раз: `brew install allure`. Дальше:
+
+```bash
+./allure.sh                          # все тесты + отчёт в браузере
+./allure.sh --filter "Category=API"  # аргументы уходят в dotnet test
+```
+
+В отчёте каждый шаг (`Utils/Step`) — отдельный step с вложенными шагами.
+У HTTP-запросов вложения Request/Response с заголовками и телом,
+у упавших UI-тестов — скриншот и Playwright-трейс.
+
 Другое окружение без правки конфига:
 
 ```bash
@@ -41,7 +54,8 @@ Config/        настройки из appsettings.json + переменные �
 Pages/         Page Object (BasePage, LoginPage, InventoryPage)
 Api/           API-клиенты и модели
 Tests/Base/    UiTestBase: настройки браузера, трейс при падении
-Utils/         Log.Step — пошаговый лог в консоль
+Utils/         Step — Allure-шаги + лог в консоль
+Api/LoggingHandler  полный лог HTTP-запросов и ответов
 Tests/Ui/      UI-тесты
 Tests/Api/     API-тесты
 .github/       CI в GitHub Actions
@@ -52,7 +66,6 @@ Tests/Api/     API-тесты
 
 ## Что добавить дальше
 
-- Allure-отчёты (пакет Allure.NUnit)
 - Генерацию тестовых данных (Bogus — аналог JavaFaker)
 - DI-контейнер для клиентов и страниц
 - BDD через Reqnroll, если в целевых вакансиях есть Gherkin

@@ -11,10 +11,9 @@ public abstract class BasePage(IPage page)
     /// <summary>Относительный адрес страницы, например "/inventory.html".</summary>
     protected abstract string RelativeUrl { get; }
 
-    public async Task OpenAsync()
+    public Task OpenAsync()
     {
         var url = Settings.Current.BaseUrl + RelativeUrl;
-        Log.Step($"Открываю {url}");
-        await Page.GotoAsync(url);
+        return Step.RunAsync($"Открыть {url}", () => Page.GotoAsync(url));
     }
 }
