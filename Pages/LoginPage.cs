@@ -1,3 +1,4 @@
+using AqaFramework.Utils;
 using Microsoft.Playwright;
 
 namespace AqaFramework.Pages;
@@ -14,6 +15,7 @@ public class LoginPage(IPage page) : BasePage(page)
 
     public async Task<InventoryPage> LoginAsync(string username, string password)
     {
+        Log.Step($"Логин: username='{username}'");
         await UsernameInput.FillAsync(username);
         await PasswordInput.FillAsync(password);
         await LoginButton.ClickAsync();

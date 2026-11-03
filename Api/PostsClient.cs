@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using AqaFramework.Api.Models;
 using AqaFramework.Config;
+using AqaFramework.Utils;
 
 namespace AqaFramework.Api;
 
@@ -12,9 +13,19 @@ public class PostsClient
         BaseAddress = new Uri(Settings.Current.ApiBaseUrl)
     };
 
-    public Task<HttpResponseMessage> GetPostAsync(int id) =>
-        Http.GetAsync($"/posts/{id}");
+    public async Task<HttpResponseMessage> GetPostAsync(int id)
+    {
+        Log.Step($"GET /posts/{id}");
+        var response = await Http.GetAsync($"/posts/{id}");
+        Log.Step($"Ответ: {(int)response.StatusCode} {response.StatusCode}");
+        return response;
+    }
 
-    public Task<HttpResponseMessage> CreatePostAsync(Post post) =>
-        Http.PostAsJsonAsync("/posts", post);
+    public async Task<HttpResponseMessage> CreatePostAsync(Post post)
+    {
+        Log.Step($"POST /posts: title='{post.Title}'");
+        var response = await Http.PostAsJsonAsync("/posts", post);
+        Log.Step($"Ответ: {(int)response.StatusCode} {response.StatusCode}");
+        return response;
+    }
 }

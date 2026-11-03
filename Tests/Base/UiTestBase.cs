@@ -1,3 +1,4 @@
+using AqaFramework.Utils;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework.Interfaces;
@@ -20,6 +21,7 @@ public abstract class UiTestBase : PageTest
     [SetUp]
     public async Task StartTracingAsync()
     {
+        Log.Step("Старт теста");
         await Context.Tracing.StartAsync(new TracingStartOptions
         {
             Screenshots = true,
@@ -33,6 +35,7 @@ public abstract class UiTestBase : PageTest
     {
         var context = TestContext.CurrentContext;
         var failed = context.Result.Outcome.Status == TestStatus.Failed;
+        Log.Step($"Результат: {context.Result.Outcome.Status}, URL: {Page.Url}");
 
         string? tracePath = null;
         if (failed)
@@ -43,5 +46,7 @@ public abstract class UiTestBase : PageTest
 
         // Path = null — трейс успешного теста просто выбрасывается
         await Context.Tracing.StopAsync(new TracingStopOptions { Path = tracePath });
+        if (tracePath != null)
+            Log.Step($"Трейс сохранён: {tracePath}");
     }
 }

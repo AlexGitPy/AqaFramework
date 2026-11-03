@@ -21,10 +21,11 @@ dotnet test --filter "Category=UI"
 dotnet test --filter "FullyQualifiedName~LoginTests"
 ```
 
-Браузер с окном (для отладки):
+Локально браузер открывается с окном и паузой 500 мс между действиями (`.runsettings`),
+в консоль пишутся шаги тестов. Быстрый прогон без окна (так запускает CI):
 
 ```bash
-dotnet test -- Playwright.LaunchOptions.Headless=false
+dotnet test -- Playwright.LaunchOptions.Headless=true Playwright.LaunchOptions.SlowMo=0
 ```
 
 Другое окружение без правки конфига:
@@ -40,6 +41,7 @@ Config/        настройки из appsettings.json + переменные �
 Pages/         Page Object (BasePage, LoginPage, InventoryPage)
 Api/           API-клиенты и модели
 Tests/Base/    UiTestBase: настройки браузера, трейс при падении
+Utils/         Log.Step — пошаговый лог в консоль
 Tests/Ui/      UI-тесты
 Tests/Api/     API-тесты
 .github/       CI в GitHub Actions

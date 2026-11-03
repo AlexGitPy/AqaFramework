@@ -17,7 +17,7 @@ jobs:
       - name: Install Playwright browsers
         run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps chromium
 
-      - run: dotnet test --no-build --logger "console;verbosity=normal" -- Playwright.LaunchOptions.Headless=true
+      - run: dotnet test --no-build --logger "console;verbosity=normal" -- Playwright.LaunchOptions.Headless=true Playwright.LaunchOptions.SlowMo=0
 
       - name: Upload traces
         if: failure()

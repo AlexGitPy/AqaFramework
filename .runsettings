@@ -7,6 +7,18 @@
     <BrowserName>chromium</BrowserName>
     <LaunchOptions>
       <Headless>false</Headless>
+      <!-- пауза перед каждым действием, чтобы успеть увидеть шаги в окне -->
+      <SlowMo>500</SlowMo>
     </LaunchOptions>
   </Playwright>
+  <LoggerRunSettings>
+    <Loggers>
+      <!-- detailed — в консоли видны имена тестов и шаги из Log.Step -->
+      <Logger friendlyName="console" enabled="True">
+        <Configuration>
+          <Verbosity>detailed</Verbosity>
+        </Configuration>
+      </Logger>
+    </Loggers>
+  </LoggerRunSettings>
 </RunSettings>
